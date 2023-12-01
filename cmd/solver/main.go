@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
 	"strings"
 
-	"github.com/ewoutquax/advent-of-code-2019/pkg/register"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-01-trebuchet"
+	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
 func main() {
@@ -18,9 +18,8 @@ func main() {
 
 func getPuzzles() (puzzles []string) {
 	var allPuzzles []string = register.GetAllDays()
-	sort.Strings(allPuzzles)
 
-	selection := readUserInput(fmt.Sprintf("Which puzzle to run (%s):\n", allPuzzles))
+	selection := readUserInput(fmt.Sprintf("Which puzzle to run %s:\n", allPuzzles))
 	switch selection {
 	case "":
 		latestPuzzle := allPuzzles[len(allPuzzles)-1]

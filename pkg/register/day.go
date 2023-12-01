@@ -3,6 +3,7 @@ package register
 import (
 	"path/filepath"
 	"runtime"
+	"sort"
 )
 
 type registeredDay struct {
@@ -31,6 +32,8 @@ func GetAllDays() (nrDays []string) {
 	for nrDay := range registeredDays {
 		nrDays = append(nrDays, nrDay)
 	}
+
+	sort.Strings(nrDays)
 
 	return
 }
