@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-01-trebuchet"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-02-cube-conundrum"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
