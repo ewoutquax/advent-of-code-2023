@@ -9,6 +9,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-01-trebuchet"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-02-cube-conundrum"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-03-gear-ratios"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-04-scratchcards"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
