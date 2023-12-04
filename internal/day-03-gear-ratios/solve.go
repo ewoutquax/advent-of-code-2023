@@ -74,12 +74,8 @@ func init() {
 }
 
 func solvePart1(inputFile string) {
-	lines := utils.ReadFileAsLines(inputFile)
-	universe := ParseInput(lines)
+	universe := ParseInput(utils.ReadFileAsLines(inputFile))
 	fmt.Printf("Result of day-%s / part-1: %d\n", Day, universe.SumEngineParts())
-
-	// Too high:
-	// 1277016
 }
 
 func solvePart2(inputFile string) {
@@ -92,32 +88,32 @@ func (n Number) IsNextToSymbol(u Universe) bool {
 }
 
 func (n Number) NextToSymbols(u Universe) (symbols []*Symbol) {
-	var tempLocation Location
+	var loc Location
 
 	// left side
-	tempLocation.Y = n.Location.Y
-	tempLocation.X = n.X - 1
-	if s, exists := u.SymbolLocations[tempLocation]; exists {
+	loc.Y = n.Y
+	loc.X = n.X - 1
+	if s, exists := u.SymbolLocations[loc]; exists {
 		symbols = append(symbols, s)
 	}
 	// right side
-	tempLocation.X = n.X + n.Length
-	if s, exists := u.SymbolLocations[tempLocation]; exists {
+	loc.X = n.X + n.Length
+	if s, exists := u.SymbolLocations[loc]; exists {
 		symbols = append(symbols, s)
 	}
 
-	// Check the top and bottomside of the number
+	// Check the top- and bottomside of the number
 	for vX := -1; vX <= n.Length; vX++ {
-		tempLocation.X = n.Location.X + vX
+		loc.X = n.X + vX
 
 		// top side
-		tempLocation.Y = n.Y - 1
-		if s, exists := u.SymbolLocations[tempLocation]; exists {
+		loc.Y = n.Y - 1
+		if s, exists := u.SymbolLocations[loc]; exists {
 			symbols = append(symbols, s)
 		}
 		// bottom side
-		tempLocation.Y = n.Y + 1
-		if s, exists := u.SymbolLocations[tempLocation]; exists {
+		loc.Y = n.Y + 1
+		if s, exists := u.SymbolLocations[loc]; exists {
 			symbols = append(symbols, s)
 		}
 	}
@@ -126,37 +122,35 @@ func (n Number) NextToSymbols(u Universe) (symbols []*Symbol) {
 }
 
 func ParseInput(lines []string) (u Universe) {
-	var currentNumber Number
-	var currentValue string
+	var currentNumber = Number{}
 
 	// Find all numbers
 	for y, line := range lines {
 		for x, char := range strings.Split(line, "") {
 			if strings.Contains("0123456789", char) {
-				if currentValue == "" {
+				if currentNumber.Value == 0 {
 					currentNumber.X = x
 					currentNumber.Y = y
 					currentNumber.Length = 0
 				}
-				currentValue += char
+				currentNumber.Value *= 10
+				currentNumber.Value += utils.ConvStrToI(char)
 				currentNumber.Length++
 			} else {
-				if currentValue != "" {
-					currentNumber.Value = utils.ConvStrToI(currentValue)
-					currentValue = ""
+				if currentNumber.Value != 0 {
 					u.Numbers = append(u.Numbers, currentNumber)
+					currentNumber = Number{}
 				}
-				// And the symbols
+				// And find the symbols
 				if char != "." {
 					u.Symbols = append(u.Symbols, &Symbol{Location{x, y}, char, []Number{}})
 				}
 			}
 		}
 		// End of the line also marks end of a number
-		if currentValue != "" {
-			currentNumber.Value = utils.ConvStrToI(currentValue)
-			currentValue = ""
+		if currentNumber.Value != 0 {
 			u.Numbers = append(u.Numbers, currentNumber)
+			currentNumber = Number{}
 		}
 	}
 

@@ -16,8 +16,14 @@ type CubeSet struct {
 	CubeGreen int // Number of GREEN cubes in this draw
 }
 
-func (d CubeSet) Power() int {
-	return d.CubeRed * d.CubeBlue * d.CubeGreen
+func (c CubeSet) Power() int {
+	return c.CubeRed * c.CubeBlue * c.CubeGreen
+}
+
+func (c CubeSet) isValid(valid CubeSet) bool {
+	return c.CubeRed <= valid.CubeRed &&
+		c.CubeBlue <= valid.CubeBlue &&
+		c.CubeGreen <= valid.CubeGreen
 }
 
 type Game struct {
@@ -44,7 +50,6 @@ func solvePart1(inputFile string) {
 func solvePart2(inputFile string) {
 	lines := utils.ReadFileAsLines(inputFile)
 	fmt.Printf("Result of day-%s / part-2: %d\n", Day, SumMinCubePower(lines))
-
 }
 
 func SumMinCubePower(lines []string) (sum int) {
@@ -90,9 +95,7 @@ func SumValidGames(lines []string, validSet CubeSet) (sum int) {
 
 func ValidGame(game Game, validSet CubeSet) bool {
 	for _, draw := range game.Draws {
-		if draw.CubeRed > validSet.CubeRed ||
-			draw.CubeBlue > validSet.CubeBlue ||
-			draw.CubeGreen > validSet.CubeGreen {
+		if !(draw.isValid(validSet)) {
 			return false
 		}
 	}
