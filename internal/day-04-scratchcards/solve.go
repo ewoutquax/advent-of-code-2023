@@ -103,7 +103,7 @@ func BuildUniverse(lines []string) Universe {
 func ParseInput(line string) (c Card) {
 	parts := strings.Split(line, ": ")
 	subparts := strings.Split(parts[0], " ")
-	rawCardId := strings.TrimLeft(subparts[1], " ")
+	rawCardId := strings.TrimPrefix(subparts[len(subparts)-1], " ")
 	c.CardId = utils.ConvStrToI(rawCardId)
 
 	re := regexp.MustCompile(`(\d+)+`)

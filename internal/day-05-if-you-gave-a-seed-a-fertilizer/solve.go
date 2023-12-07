@@ -101,7 +101,6 @@ func FindNearestLocation(u Universe) (nearest int) {
 		if nearest == 0 || nearest > location {
 			nearest = location
 		}
-
 	}
 
 	return
@@ -110,7 +109,7 @@ func FindNearestLocation(u Universe) (nearest int) {
 func FindNearestLocationWithRanges(u Universe) (nearest int) {
 	var seedCurrent int
 
-	nearest = -1
+	nearest = MaxInt
 	for _, r := range u.SeedsWithRange {
 		seedCurrent = r.From
 
@@ -123,7 +122,7 @@ func FindNearestLocationWithRanges(u Universe) (nearest int) {
 				seedCurrent += rangeStopsIn
 			}
 
-			if nearest == -1 || nearest > location {
+			if nearest > location {
 				nearest = location
 			}
 		}
@@ -139,10 +138,10 @@ func ConvertSeedToLocation(seed int, u Universe) (int, int) {
 	}
 
 	var minRangeStopsIn, rangeStopsIn int
-	minRangeStopsIn = ^int(0)
+	minRangeStopsIn = MaxInt
 	for ca.Category != CategoryLocation {
 		ca, rangeStopsIn = u.ConvertCategory(ca)
-		if minRangeStopsIn == -1 || minRangeStopsIn > rangeStopsIn {
+		if minRangeStopsIn > rangeStopsIn {
 			minRangeStopsIn = rangeStopsIn
 		}
 	}
