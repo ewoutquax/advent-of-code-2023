@@ -104,8 +104,6 @@ func StepsAllTillEnd(u Universe) int {
 		steps = append(steps, r.NrSteps)
 	}
 
-	fmt.Printf("steps: %v\n", steps)
-
 	var lcm int = 1
 	for _, nrSteps := range steps {
 		lcm = Lcm(lcm, nrSteps)
@@ -120,15 +118,6 @@ func ParseInput(blocks [][]string) Universe {
 		Nodes:      parseNodes(blocks[1]),
 		Runners:    make([]Runner, 0),
 	}
-
-	// for _, node := range u.Nodes {
-	//  if node.IsStart {
-	//    u.Runners = append(u.Runners, Runner{
-	//      NrSteps:     0,
-	//      CurrentNode: *u.Nodes[node.Label],
-	//    })
-	//  }
-	// }
 }
 
 func parseDirections(lines []string) string {
@@ -172,8 +161,6 @@ func Lcm(int1, int2 int) int {
 
 func Gcd(numerator, dividor int) int {
 	var remainder int = numerator % dividor
-
-	fmt.Printf("solve: numerator / dividor = remainder: %d / %d = %d\n", numerator, dividor, remainder)
 
 	if remainder != 0 {
 		return Gcd(dividor, remainder)

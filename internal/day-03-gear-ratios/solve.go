@@ -80,7 +80,7 @@ func solvePart1(inputFile string) {
 
 func solvePart2(inputFile string) {
 	universe := ParseInput(utils.ReadFileAsLines(inputFile))
-	fmt.Printf("Result of day-%s / part-1: %d\n", Day, universe.SumGearRatios())
+	fmt.Printf("Result of day-%s / part-2: %d\n", Day, universe.SumGearRatios())
 }
 
 func (n Number) IsNextToSymbol(u Universe) bool {
