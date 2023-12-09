@@ -14,6 +14,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-06-wait-for-it"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-07-camel-cards"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-08-haunted-wasteland"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-09-mirage-maintenance"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 

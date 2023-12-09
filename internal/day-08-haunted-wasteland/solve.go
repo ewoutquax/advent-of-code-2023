@@ -179,7 +179,5 @@ func Gcd(numerator, dividor int) int {
 		return Gcd(dividor, remainder)
 	}
 
-	fmt.Printf("gcd: %v\n", dividor)
-
 	return dividor
 }
