@@ -53,6 +53,17 @@ func TestStepsFarthersFromStart(t *testing.T) {
 
 }
 
+func TestSumEnclosedTiles(t *testing.T) {
+	u := ParseInput(testInputEnclosedSimple())
+
+	u.StepsFarthestFromStart() // Find all the pipes in the loop
+	u.CSIEnhance()
+	u.MarkReachableTiles()
+	u.Draw()
+
+	assert.Equal(t, 4, u.SumUnreachableTiles())
+}
+
 func testInputSmallestMaze() []string {
 	return []string{
 		".....",

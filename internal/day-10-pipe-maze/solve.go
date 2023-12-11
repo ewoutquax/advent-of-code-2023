@@ -12,7 +12,7 @@ const Day string = "10"
 
 func init() {
 	register.Day(Day+"a", solvePart1)
-	// register.Day(Day+"b", solvePart2)
+	register.Day(Day+"b", solvePart2)
 }
 
 func solvePart1(inputFile string) {
@@ -27,7 +27,7 @@ func solvePart2(inputFile string) {
 	u.StepsFarthestFromStart() // Find all the pipes in the loop
 	u.CSIEnhance()
 	u.MarkReachableTiles()
-	fmt.Printf("Result of day-%s / part-2: %d\n", Day, 0)
+	fmt.Printf("Result of day-%s / part-2: %d\n", Day, u.SumUnreachableTiles())
 }
 
 type Location struct {
@@ -119,21 +119,24 @@ func (u Universe) StepsFarthestFromStart() int {
 	return (u.LoopLength() + 1) / 2
 }
 
-func (u Universe) CSIEnhance() {
+func (u *Universe) CSIEnhance() {
 	var maxX, maxY int
+	u.EnhancedTiles = make(map[Location]*Tile, 10000)
 
-	for loc, pipe := range u.Pipes {
-		if pipe.IsOnLoop {
-			if maxX < pipe.X {
-				maxX = pipe.X
+	for _, pipe := range u.Pipes {
+		if pipe.IsOnLoop || pipe.IsStart {
+			pipeX := pipe.X * 3
+			pipeY := pipe.Y * 3
+			if maxX < pipeX+2 {
+				maxX = pipeX + 2
 			}
-			if maxY < pipe.Y {
-				maxY = pipe.Y
+			if maxY < pipeY+2 {
+				maxY = pipeY + 2
 			}
 			// Create 9 empty tiles, with score 0
 			for idxY := 0; idxY < 3; idxY++ {
 				for idxX := 0; idxX < 3; idxX++ {
-					tileLoc := Location{pipe.X + idxY, pipe.Y + idxY}
+					tileLoc := Location{pipeX + idxX, pipeY + idxY}
 					u.EnhancedTiles[tileLoc] = &Tile{
 						Location:   tileLoc,
 						LoopPipe:   false,
@@ -144,27 +147,32 @@ func (u Universe) CSIEnhance() {
 			}
 
 			// Mark 3 tiles as part of the loop, depending on the pipe-symbol
-			u.EnhancedTiles[Location{pipe.X + 1, pipe.Y + 1}].LoopPipe = true
+			u.EnhancedTiles[Location{pipeX + 1, pipeY + 1}].LoopPipe = true
 
 			switch pipe.Symbol {
 			case "F":
-				u.EnhancedTiles[Location{pipe.X, pipe.Y + 1}].LoopPipe = true
-				u.EnhancedTiles[Location{pipe.X + 1, pipe.Y}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 2}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 2, pipeY + 1}].LoopPipe = true
 			case "-":
-				u.EnhancedTiles[Location{pipe.X - 1, pipe.Y}].LoopPipe = true
-				u.EnhancedTiles[Location{pipe.X + 1, pipe.Y}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 0, pipeY + 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 2, pipeY + 1}].LoopPipe = true
 			case "7":
-				u.EnhancedTiles[Location{pipe.X - 1, pipe.Y}].LoopPipe = true
-				u.EnhancedTiles[Location{pipe.X, pipe.Y + 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 0, pipeY + 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 2}].LoopPipe = true
 			case "|":
-				u.EnhancedTiles[Location{pipe.X, pipe.Y - 1}].LoopPipe = true
-				u.EnhancedTiles[Location{pipe.X, pipe.Y + 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 0}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 2}].LoopPipe = true
 			case "J":
-				u.EnhancedTiles[Location{pipe.X, pipe.Y - 1}].LoopPipe = true
-				u.EnhancedTiles[Location{pipe.X - 1, pipe.Y}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 0}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 0, pipeY + 1}].LoopPipe = true
 			case "L":
-				u.EnhancedTiles[Location{pipe.X + 1, pipe.Y}].LoopPipe = true
-				u.EnhancedTiles[Location{pipe.X, pipe.Y - 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 2, pipeY + 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 0}].LoopPipe = true
+			case "S":
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 0}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 1, pipeY + 2}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 0, pipeY + 1}].LoopPipe = true
+				u.EnhancedTiles[Location{pipeX + 2, pipeY + 1}].LoopPipe = true
 			default:
 				panic("No valid case found")
 			}
@@ -173,6 +181,7 @@ func (u Universe) CSIEnhance() {
 	}
 
 	// Create empty tiles, as not-reachable and with score 1
+	fmt.Printf("solve: MaxX / MaxY: %d / %d\n", maxX, maxY)
 	for y := 0; y < maxY+3; y++ {
 		for x := 0; x < maxX+3; x++ {
 			loc := Location{x, y}
@@ -181,7 +190,7 @@ func (u Universe) CSIEnhance() {
 					Location:   loc,
 					LoopPipe:   false,
 					Score:      1,
-					IsEnclosed: false,
+					IsEnclosed: true,
 				}
 			}
 		}
@@ -189,7 +198,64 @@ func (u Universe) CSIEnhance() {
 }
 
 func (u Universe) MarkReachableTiles() {
-	var visitedTiles = make(map[Location]bool, len(u.EnhancedTiles))
+	var visitedLocations = make(map[Location]bool, len(u.EnhancedTiles))
+	var reachedLocations = make(map[Location]bool, len(u.EnhancedTiles))
+	var reachableLocations = make([]Location, 0)
+	reachableLocations = append(reachableLocations, Location{0, 0})
+
+	for len(reachableLocations) > 0 {
+		currentLocation := reachableLocations[0]
+		u.EnhancedTiles[currentLocation].IsEnclosed = false
+
+		reachableLocations = reachableLocations[1:]
+		visitedLocations[currentLocation] = true
+
+		if !u.EnhancedTiles[currentLocation].LoopPipe {
+			// Find next locations from this reachable locations; Do check if the location has already been visited
+			for idxY := -1; idxY <= 1; idxY++ {
+				for idxX := -1; idxX <= 1; idxX++ {
+					tmpLocation := Location{currentLocation.X + idxX, currentLocation.Y + idxY}
+					_, existsTile := u.EnhancedTiles[tmpLocation]
+					_, existsVisited := visitedLocations[tmpLocation]
+					_, existsReached := reachedLocations[tmpLocation]
+					if existsTile && !existsVisited && !existsReached {
+						reachableLocations = append(reachableLocations, tmpLocation)
+						reachedLocations[tmpLocation] = true
+					}
+				}
+			}
+		}
+	}
+}
+
+func (u Universe) Draw() {
+	for y := 0; y < 30; y++ {
+		for x := 0; x < 40; x++ {
+			loc := Location{x, y}
+			var printChar string
+			if tile, exists := u.EnhancedTiles[loc]; exists {
+				printChar = "."
+				if tile.IsEnclosed {
+					printChar = "I"
+				}
+				if tile.LoopPipe {
+					printChar = "x"
+				}
+				fmt.Printf("%s", printChar)
+			}
+		}
+		fmt.Printf("\n")
+	}
+}
+
+func (u Universe) SumUnreachableTiles() (sum int) {
+	for _, tile := range u.EnhancedTiles {
+		if tile.IsEnclosed {
+			sum += tile.Score
+		}
+	}
+
+	return sum / 9
 }
 
 func ParseInput(lines []string) Universe {
@@ -201,11 +267,10 @@ func ParseInput(lines []string) Universe {
 		for x, char := range strings.Split(line, "") {
 			if char != "." {
 				pipe := Pipe{
-					Symbol:     char,
-					IsStart:    char == "S",
-					IsOnLoop:   false,
-					IsEnclosed: false,
-					Location:   Location{x, y},
+					Symbol:   char,
+					IsStart:  char == "S",
+					IsOnLoop: false,
+					Location: Location{x, y},
 				}
 
 				u.Pipes[pipe.Location] = &pipe
