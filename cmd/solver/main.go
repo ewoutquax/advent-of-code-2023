@@ -16,6 +16,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-08-haunted-wasteland"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-09-mirage-maintenance"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-10-pipe-maze"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-11-cosmic-expansion"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
