@@ -17,6 +17,8 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-09-mirage-maintenance"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-10-pipe-maze"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-11-cosmic-expansion"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-12-hot-springs"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-13-point-of-incidence"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
