@@ -19,6 +19,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-11-cosmic-expansion"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-12-hot-springs"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-13-point-of-incidence"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-14-parabolic-refraction-dish"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
