@@ -22,6 +22,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-14-parabolic-refraction-dish"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-18-lavaduct-lagoon"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-20-pulse-propagation"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-21-step-counter"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
