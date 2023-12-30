@@ -25,6 +25,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-20-pulse-propagation"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-21-step-counter"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-22-sand-slabs"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-23-a-long-walk"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
