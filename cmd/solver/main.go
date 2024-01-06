@@ -26,6 +26,7 @@ import (
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-21-step-counter"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-22-sand-slabs"
 	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-23-a-long-walk"
+	_ "github.com/ewoutquax/advent-of-code-2023/internal/day-24-never-tell-me-the-odds"
 	"github.com/ewoutquax/advent-of-code-2023/pkg/register"
 )
 
